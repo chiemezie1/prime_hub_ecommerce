@@ -1,0 +1,90 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String     @id @default(uuid())
+  email     String     @unique
+  password  String
+  name      String
+  role      Role       @default(SHOPPER)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  avatarUrl String?
+  cartItems CartItem[]
+  orders    Order[]
+  products  Product[]
+}
+
+model Product {
+  id          String      @id @default(uuid())
+  name        String
+  description String
+  price       Decimal
+  imageUrl    String
+  category    String
+  quantity    Int
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  sellerId    String
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+  seller      User        @relation(fields: [sellerId], references: [id])
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  userId          String
+  status          OrderStatus @default(PENDING)
+  total           Decimal
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  paymentIntentId String?     @unique
+  user            User        @relation(fields: [userId], references: [id])
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Decimal
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  userId    String
+  productId String
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, productId])
+}
+
+enum Role {
+  ADMIN
+  SELLER
+  SHOPPER
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
