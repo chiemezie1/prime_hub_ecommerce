@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 // Reuse PrismaClient to avoid connection issues in production
 const prisma = globalThis.prisma || new PrismaClient();
@@ -13,7 +13,7 @@ export async function GET() {
     return NextResponse.json(users);
   } catch (error) {
     console.error('Error fetching users:', error);
-    return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to fetch users' }, { sstatus: 500 });
   }
 }
 
