@@ -1,92 +1,115 @@
-# E-Commerce Platform
+# Prime Hub
 
 ## Overview
 
-This project is an advanced e-commerce platform designed to fulfill the requirements of a complex bounty challenge. It features a robust backend developed from scratch, along with a React-based frontend utilizing Redux for state management. The platform supports multiple user roles, product management, and secure payment processing via Stripe.
+Prime Hub is an advanced e-commerce platform designed to provide a seamless shopping experience. It features a robust backend developed from scratch, paired with a modern frontend built using React. The platform supports multiple user roles, comprehensive product management, and secure payment processing via Stripe, making it ideal for diverse e-commerce needs.
 
 ## Features
 
 ### User Authentication and Authorization
 
-- Register new users.
-- User roles: Admin, Seller, and Shopper.
-- JWT-based authentication for secure access.
+- **User Registration:** Allows users to create accounts.
+- **Role Management:** Supports Admin, Seller, and Shopper roles.
+- **Secure Authentication:** Utilizes JWT for secure access.
 
 ### Admin Capabilities
 
-- Add new users.
-- Delete existing users.
-- Manage and assign user roles.
+- **User Management:** Add, delete, and manage user roles.
 
 ### Seller Features
 
-- List products for sale.
-- Set product prices and manage stock quantities.
-- Update and delete product listings.
+- **Product Listings:** Sellers can list products for sale with detailed descriptions.
+- **Product Updates:** Update and delete product listings as needed.
 
 ### Shopper Experience
 
-- Browse available products.
-- Add items to the cart and complete purchases.
-- Secure payment processing using Stripe.
+- **Product Browsing:** Easy navigation through available products.
+- **Shopping Cart:** Add items to the cart and proceed to checkout.
+- **Secure Payments:** Process payments securely using Stripe.
 
 ### Product Management
 
-- Full CRUD operations for product management.
-- Image upload and storage using Cloudinary.
-- Product search and filter functionality.
+- **CRUD Operations:** Full create, read, update, and delete capabilities for products.
+- **Image Management:** Upload and store product images using Cloudinary.
 
-### Order Processing
 
-- Create and manage orders.
-- Track order status and view order history.
-
-#### Note
-To delect a user you first delete all products associated with the user before deleting the user itself.
+**Note:** To delete a user, ensure that all products associated with the user are deleted first.
 
 ## Technologies Used
 
 ### Backend
 
-- **Node.js** with **Express.js** for building the server.
-- **PostgreSQL** as the database, managed through **Prisma ORM**.
-- **JSON Web Tokens (JWT)** for secure authentication.
+- **Node.js** For building the server.
+- **PostgreSQL:** Database management, facilitated through **Prisma ORM**.
+- **JWT:** For secure authentication.
 
 ### Frontend
 
-- **React** with **Next.js** for server-side rendering and routing.
-- **Redux Toolkit** for global state management.
-- **Tailwind CSS** for fast and responsive UI design.
+- **React** with **Next.js:** For server-side rendering and enhanced routing capabilities.
+- **Redux Toolkit:** For global state management.
+- **Tailwind CSS:** For responsive and modern UI design.
 
 ### External Services
 
-- **Cloudinary** for image storage and management.
-- **Stripe** for secure payment processing.
+- **Cloudinary:** For efficient image storage and management.
+- **Stripe:** For secure payment processing. Not full implemented yet
 
 ## Setup Instructions
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed on your system:
+
+- **Node.js**: Version 18.x or later.
+    - To check your Node.js version, run:
+        
+        ```bash
+        node -v
+        ```
+        
+- **npm**: Version 9.x or later (comes with Node.js).
+    - To check your npm version, run:
+        
+        ```bash
+        npm -v
+        ```
+        
+- **PostgreSQL**: Version 15.x or later.
+    - To check your PostgreSQL version, run:
+        
+        ```bash
+        psql --version
+        ```
+        
+- **Prisma CLI**: Version 5.x or later (for database migrations).
+    - To check your Prisma version, run:
+        
+        ```bash
+        npx prisma -v
+        ```
+Ensure all prerequisites are installed and set up correctly before proceeding with the project setup.
+
 
 ### 1. Clone the Repository
 
 ```bash
-git clone <https://github.com/your-username/e-commerce-platform.git>
-cd e-commerce-platform
-
+git clone <https://github.com/chiemezie1/prime_hub_ecommerce.git>
+cd prime_hub_ecommerce
 ```
 
 ### 2. Install Dependencies
 
 ```bash
 npm install
-
 ```
 
 ### 3. Set Up Environment Variables
 
 Create a `.env` file in the root directory with the following structure:
 
-```bash
+```plaintext
+
 DATABASE_URL="postgresql://postgres_user:password@localhost:5432/your_database"
-DIRECT_URL="postgresql://postgres_user:password@localhost:5432/your_database"
 JWT_SECRET=your_jwt_secret_key
 
 CLOUDINARY_CLOUD_NAME=your_cloud_name
@@ -98,26 +121,20 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
 
 ```
 
-Replace the placeholder values with your actual credentials.
+Replace placeholder values with your actual credentials. It is recommended to use [Supabase](https://supabase.com/) for the database and [Cloudinary](https://console.cloudinary.com/) for image storage.
 
 ### 4. Set Up the Database
 
-Run the following command to apply the Prisma migrations and initialize your database:
+Run the following command to apply Prisma migrations and initialize your database:
 
 ```bash
-bash
-Copy code
 npx prisma migrate dev
-
 ```
 
 ### 5. Run the Development Server
 
 ```bash
-bash
-Copy code
 npm run dev
-
 ```
 
 The application will be available at `http://localhost:3000`.
@@ -127,6 +144,7 @@ The application will be available at `http://localhost:3000`.
 - **/src**: Main source code directory.
 - **/app**: Contains Next.js app router and page components.
 - **/components**: Reusable React components.
+- **/components/Layout**: Contains the home page code, including the cart.
 - **/redux**: Redux store, slices, and services.
 - **/types**: TypeScript type definitions.
 - **/utils**: Helper functions and utility code.
@@ -137,30 +155,14 @@ The application will be available at `http://localhost:3000`.
 - **/api/auth**: Routes for user authentication (register, login, logout).
 - **/api/users**: User management routes (CRUD operations for users).
 - **/api/products**: Product management routes (CRUD operations for products).
-- **/api/orders**: Routes to create and manage orders.
-- **/api/stripe**: Routes to handle Stripe payment integration.
-
-## Testing
-
-To run the test suite and ensure code quality:
-
-```bash
-bash
-Copy code
-npm run test
-
-```
-
-## Deployment
-
-The project is pre-configured for seamless deployment on **Vercel**:
-
-1. Connect your GitHub repository to Vercel.
-2. Deploy the main branch, and Vercel will handle the rest.
+- **/api/update-orders**: Routes to create and manage orders.
+- **/api/profile**: User profile management.
+- **/api/upload**: Upload product images.
+- **/api/stripe**: Handle Stripe payment integration.
 
 ## Contributing
 
-Contributions are highly welcome! Please feel free to open issues, submit pull requests, or provide feedback.
+Contributions are welcome! Feel free to open issues, submit pull requests, or provide feedback.
 
 ## License
 
