@@ -19,15 +19,14 @@ export async function GET() {
 // POST: Create a new user
 export async function POST(request: Request) {
   try {
-    const { name, email, role } = await request.json();
+    const { name, email, role, password } = await request.json();
 
-    // Ensure required fields are provided
-    if (!name || !email || !role) {
+    if (!name || !email || !role || !password) { // Check for password
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const user = await prisma.user.create({
-      data: { name, email, role },
+      data: { name, email, role, password },
     });
     return NextResponse.json(user, { status: 201 });
   } catch (error) {

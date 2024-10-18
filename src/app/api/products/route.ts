@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
       // Fetch a single product by ID if 'id' parameter is provided
       const product = await prisma.product.findUnique({
         where: { id },
-        include: { seller: true }, // Include seller information
+        include: { seller: true },
       });
 
       // If no product is found, return a 404 response
@@ -103,7 +103,6 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     const { id, sellerId, ...data } = body;
 
-    // Validate if ID is provided
     if (!id) {
       return NextResponse.json(createResponse(false, null, 'Product ID is required'), { status: 400 });
     }

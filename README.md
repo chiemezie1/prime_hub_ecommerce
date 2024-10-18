@@ -1,4 +1,5 @@
 # Prime Hub
+![Landing Page Image](src/public/landing.png)
 
 ## Overview
 
