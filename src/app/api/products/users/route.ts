@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 // Reuse PrismaClient to avoid connection issues in production
 const prisma = globalThis.prisma || new PrismaClient();
