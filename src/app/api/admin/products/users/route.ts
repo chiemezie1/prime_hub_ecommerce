@@ -20,7 +20,7 @@ export async function GET() {
 // POST: Create a new user
 export async function POST(request: Request) {
   try {
-    const { name, email, role, password } = await request.json();
+    const { name, email, role, password= '12345' } = await request.json(); //when the paord not included it default to 12345
 
     if (!name || !email || !role || !password) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });

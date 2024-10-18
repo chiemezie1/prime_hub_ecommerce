@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs'; // Make sure to import bcrypt for password hashing
 
 // Reuse PrismaClient to avoid connection issues in production
 const prisma = globalThis.prisma || new PrismaClient();
@@ -19,16 +20,25 @@ export async function GET() {
 // POST: Create a new user
 export async function POST(request: Request) {
   try {
-    const { name, email, role } = await request.json();
+    const { name, email, role, password = '12345' } = await request.json(); // Default password to '12345'
 
     // Ensure required fields are provided
     if (!name || !email || !role) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
+    // Hash the password before saving it
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = await prisma.user.create({
-      data: { name, email, role },
+      data: {
+        name,
+        email,
+        role,
+        password: hashedPassword,
+      },
     });
+    
     return NextResponse.json(user, { status: 201 });
   } catch (error) {
     console.error('Error creating user:', error);
